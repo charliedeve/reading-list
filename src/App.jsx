@@ -17,13 +17,14 @@ function App() {
     setBookFilter(e.target.value)
   }
    
-  // Add selected book to lect list and delete it from filtered books
+  // Add selected book to reading list and delete it from filtered books
   const addBookList = (item) => {
     setReadList([...readList, item]);
     setAvailableBook(availableBook.filter(indice => indice != item));// Avoid duplicated books in reading list
     console.log(readList)
   } 
 
+  // Delete book from reading list and add it to available books
   const deleteBookFromList = (item) => {
     let deletedBook = readList.splice(item, 1)
     setReadList([...readList])
