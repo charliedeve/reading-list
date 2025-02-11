@@ -6,6 +6,7 @@ function App() {
 	const [availableBook, setAvailableBook] = useState(books.library);
 	const [readList, setReadList] = useState([]);
 	const [bookFilter, setBookFilter] = useState('Todos');
+	const [searchBook, setSearchBook] = useState('');
 
 	// Filter function to filter books, returns a filtered array
 	const filteredBooks =
@@ -26,9 +27,19 @@ function App() {
 
 	// Delete book from reading list and add it to available books
 	const deleteBookFromList = (item) => {
-		let deletedBook = readList.splice(item, 1);
-		setReadList([...readList]);
-		setAvailableBook([...availableBook, ...deletedBook]);
+		setReadList([...readList.filter((indice) => indice != item)]);
+		setAvailableBook([...availableBook, item]);
+	};
+
+	//Search a book by title
+	const handleSearch = () => {
+		searchBook == ''
+			? setAvailableBook(books.library)
+			: setAvailableBook(
+					availableBook.filter(
+						(item) => item.book.title.toLowerCase() == searchBook.toLowerCase(),
+					),
+				);
 	};
 
 	return (
@@ -36,6 +47,14 @@ function App() {
 			<div className='pb-5'>
 				<h2> {filteredBooks.length} Libros disponibles</h2>
 				<h2>{readList.length} en la lista de lectura</h2>
+				<input
+					type='text'
+					onChange={(e) => {
+						setSearchBook(e.target.value);
+					}}
+				/>
+				<button onClick={handleSearch}>Buscar libro</button>
+				<br />
 				<select
 					name='filter'
 					id='filter'
